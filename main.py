@@ -2,15 +2,63 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 import pandas as pd
 import joblib
+import sqlite3
+import json
 
-# 🔹 Load artifacts
+conn = sqlite3.connect("db/credit.db", check_same_thread=False)
+cursor = conn.cursor()
+
+# Create tables
+cursor.execute("""
+CREATE TABLE IF NOT EXISTS credit_application (
+    id_application INTEGER PRIMARY KEY AUTOINCREMENT,
+    avg_cur_bal REAL,
+    dti REAL,
+    acc_open_past_24mths REAL,
+    term TEXT,
+    inq_last_12m REAL,
+    max_bal_bc REAL,
+    desc TEXT,
+    mths_since_recent_inq REAL,
+    open_rv_24m REAL,
+    loan_amnt REAL,
+    num_actv_rev_tl REAL,
+    mort_acc REAL,
+    total_bal_il REAL,
+    all_util REAL,
+    verification_status TEXT,
+    home_ownership TEXT,
+    int_rate REAL,
+    fico_range_low REAL,
+    created_at TEXT DEFAULT CURRENT_TIMESTAMP
+)
+""")
+
+cursor.execute("""
+CREATE TABLE IF NOT EXISTS credit_decision (
+    id_decision INTEGER PRIMARY KEY AUTOINCREMENT,
+    id_application INTEGER,
+    pd REAL,
+    risk_grade TEXT,
+    lgd REAL,
+    expected_loss REAL,
+    profitability REAL,
+    decision TEXT,
+    reason_codes TEXT,
+    created_at TEXT DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (id_application) REFERENCES credit_application(id_application)
+)
+""")
+
+conn.commit()
+
 model = joblib.load("calib_model.pkl")
 preprocessor = joblib.load("preprocessor.pkl")
 top_features = joblib.load("top_features.pkl")
 
 app = FastAPI()
 
-# 🔹 Request schema (MUST match training columns)
+# Request schema 
 class LoanFeatures(BaseModel):
     avg_cur_bal: float = 5000
     dti: float = 0.25
@@ -183,40 +231,97 @@ def predict(features: LoanFeatures):
     pd_proba = model.predict_proba(X_model)[0, 1]
     risk_grade = map_pd_to_risk_grade(pd_proba)
 
-    # Assign LGD (policy)
+    # -----------------------------
+    # Step 3: Risk metrics
+    # -----------------------------
     product_lgd_map = {
         "debt_consolidation": 0.45,
         "auto": 0.30,
         "mortgage": 0.20
     }
-    lgd = product_lgd_map.get(features.purpose, 0.45)  # default 45%
 
-    # Compute Expected Loss
-
+    lgd = product_lgd_map.get(features.purpose, 0.45)
     ead = features.loan_amnt
     expected_loss_value = round(pd_proba * lgd * ead, 2)
 
-
-    #Profitability
     interest_income = ead * (features.int_rate / 100)
     profit = round(interest_income - expected_loss_value, 2)
 
-    #Decision matrix
+    # -----------------------------
+    # Step 4: Decision logic
+    # -----------------------------
     decision = "APPROVE"
-    if risk_grade == "E":
+
+    if pd_proba > 0.40:
         decision = "REJECT"
         reason_codes.append("PD too high")
     elif profit <= 0:
         decision = "REJECT"
         reason_codes.append("Expected loss exceeds interest income")
-    elif risk_grade == "D":
+    elif pd_proba > 0.20:
         decision = "APPROVE_CONDITIONAL"
-        reason_codes.append("High risk grade - conditional approval")
-    elif risk_grade == "C" and expected_loss_value / ead > 0.10:
-        decision = "APPROVE_WITH_REPRICE"
-        reason_codes.append("Expected loss high - reprice interest rate")
+        reason_codes.append("High risk – conditional approval")
 
-    # Step 8: Return full response
+    # -----------------------------
+    # Step 5: Store loan application
+    # -----------------------------
+    cursor.execute("""
+        INSERT INTO credit_application (
+            avg_cur_bal, dti, acc_open_past_24mths, term,
+            inq_last_12m, max_bal_bc, desc, mths_since_recent_inq,
+            open_rv_24m, loan_amnt, num_actv_rev_tl, mort_acc,
+            total_bal_il, all_util, verification_status,
+            home_ownership, int_rate, fico_range_low
+        )
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    """, (
+        features.avg_cur_bal,
+        features.dti,
+        features.acc_open_past_24mths,
+        features.term,
+        features.inq_last_12m,
+        features.max_bal_bc,
+        features.desc,
+        features.mths_since_recent_inq,
+        features.open_rv_24m,
+        features.loan_amnt,
+        features.num_actv_rev_tl,
+        features.mort_acc,
+        features.total_bal_il,
+        features.all_util,
+        features.verification_status,
+        features.home_ownership,
+        features.int_rate,
+        features.fico_range_low
+    ))
+
+    id_application = cursor.lastrowid
+
+    # -----------------------------
+    # Step 6: Store credit decision
+    # -----------------------------
+    cursor.execute("""
+        INSERT INTO credit_decision (
+            id_application, pd, risk_grade, lgd,
+            expected_loss, profitability, decision, reason_codes
+        )
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+    """, (
+        id_application,
+        round(pd_proba, 4),
+        risk_grade,
+        lgd,
+        expected_loss_value,
+        profit,
+        decision,
+        json.dumps(reason_codes)
+    ))
+
+    conn.commit()
+
+    # -----------------------------
+    # Step 7: API response
+    # -----------------------------
     return {
         "decision": decision,
         "stage": "FULL_DECISION",
