@@ -17,6 +17,7 @@
     "verification_status": "Verified",
     "home_ownership": "MORTGAGE",
     "int_rate": 11.14,
+    "annual_inc": 112000.0,
     "fico_range_low": 715.0
   },
   {
@@ -37,6 +38,7 @@
     "verification_status": "Source Verified",
     "home_ownership": "MORTGAGE",
     "int_rate": 5.32,
+    "annual_inc": 400000.0,
     "fico_range_low": 725.0
   },
   {
@@ -57,6 +59,7 @@
     "verification_status": "Not Verified",
     "home_ownership": "RENT",
     "int_rate": 5.32,
+    "annual_inc": 70000.0,
     "fico_range_low": 730.0
   },
   {
@@ -77,6 +80,7 @@
     "verification_status": "Source Verified",
     "home_ownership": "MORTGAGE",
     "int_rate": 11.53,
+    "annual_inc": 120000.0,
     "fico_range_low": 690.0
   },
   {
@@ -97,6 +101,7 @@
     "verification_status": "Not Verified",
     "home_ownership": "MORTGAGE",
     "int_rate": 7.99,
+    "annual_inc": 125000.0,
     "fico_range_low": 700.0
   },
   {
@@ -117,6 +122,7 @@
     "verification_status": "Not Verified",
     "home_ownership": "MORTGAGE",
     "int_rate": 6.49,
+    "annual_inc": 52000.0,
     "fico_range_low": 710.0
   },
   {
@@ -137,6 +143,7 @@
     "verification_status": "Source Verified",
     "home_ownership": "MORTGAGE",
     "int_rate": 10.64,
+    "annual_inc": 170875.0,
     "fico_range_low": 660.0
   },
   {
@@ -157,6 +164,7 @@
     "verification_status": "Source Verified",
     "home_ownership": "RENT",
     "int_rate": 8.18,
+    "annual_inc": 21840.0,
     "fico_range_low": 675.0
   },
   {
@@ -177,6 +185,7 @@
     "verification_status": "Verified",
     "home_ownership": "MORTGAGE",
     "int_rate": 13.67,
+    "annual_inc": 80000.0,
     "fico_range_low": 685.0
   },
   {
@@ -197,6 +206,7 @@
     "verification_status": "Not Verified",
     "home_ownership": "MORTGAGE",
     "int_rate": 9.67,
+    "annual_inc": 52000.0,
     "fico_range_low": 705.0
   },
   {
@@ -217,6 +227,7 @@
     "verification_status": "Verified",
     "home_ownership": "OWN",
     "int_rate": 8.9,
+    "annual_inc": 90000.0,
     "fico_range_low": 670.0
   },
   {
@@ -237,6 +248,7 @@
     "verification_status": "Not Verified",
     "home_ownership": "MORTGAGE",
     "int_rate": 11.53,
+    "annual_inc": 35000.0,
     "fico_range_low": 665.0
   },
   {
@@ -257,6 +269,7 @@
     "verification_status": "Verified",
     "home_ownership": "MORTGAGE",
     "int_rate": 13.33,
+    "annual_inc": 112000.0,
     "fico_range_low": 710.0
   },
   {
@@ -277,6 +290,7 @@
     "verification_status": "Verified",
     "home_ownership": "MORTGAGE",
     "int_rate": 12.69,
+    "annual_inc": 115000.0,
     "fico_range_low": 695.0
   },
   {
@@ -297,6 +311,7 @@
     "verification_status": "Verified",
     "home_ownership": "RENT",
     "int_rate": 11.49,
+    "annual_inc": 21600.0,
     "fico_range_low": 705.0
   },
   {
@@ -317,6 +332,7 @@
     "verification_status": "Source Verified",
     "home_ownership": "OWN",
     "int_rate": 11.47,
+    "annual_inc": 63000.0,
     "fico_range_low": 685.0
   },
   {
@@ -337,6 +353,7 @@
     "verification_status": "Verified",
     "home_ownership": "RENT",
     "int_rate": 13.99,
+    "annual_inc": 140000.0,
     "fico_range_low": 660.0
   },
   {
@@ -357,6 +374,7 @@
     "verification_status": "Verified",
     "home_ownership": "MORTGAGE",
     "int_rate": 16.2,
+    "annual_inc": 125000.0,
     "fico_range_low": 710.0
   },
   {
@@ -377,6 +395,7 @@
     "verification_status": "Verified",
     "home_ownership": "RENT",
     "int_rate": 9.49,
+    "annual_inc": 48000.0,
     "fico_range_low": 765.0
   },
   {
@@ -397,6 +416,7 @@
     "verification_status": "Source Verified",
     "home_ownership": "MORTGAGE",
     "int_rate": 14.49,
+    "annual_inc": 70200.0,
     "fico_range_low": 710.0
   },
   {
@@ -417,6 +437,7 @@
     "verification_status": "Source Verified",
     "home_ownership": "RENT",
     "int_rate": 19.47,
+    "annual_inc": 105000.0,
     "fico_range_low": 670.0
   },
   {
@@ -437,6 +458,7 @@
     "verification_status": "Not Verified",
     "home_ownership": "RENT",
     "int_rate": 18.49,
+    "annual_inc": 49000.0,
     "fico_range_low": 675.0
   },
   {
@@ -457,6 +479,7 @@
     "verification_status": "Source Verified",
     "home_ownership": "RENT",
     "int_rate": 12.39,
+    "annual_inc": 39000.0,
     "fico_range_low": 675.0
   },
   {
@@ -477,6 +500,7 @@
     "verification_status": "Verified",
     "home_ownership": "MORTGAGE",
     "int_rate": 17.09,
+    "annual_inc": 58000.0,
     "fico_range_low": 670.0
   },
   {
@@ -497,6 +521,7 @@
     "verification_status": "Not Verified",
     "home_ownership": "RENT",
     "int_rate": 15.59,
+    "annual_inc": 53000.0,
     "fico_range_low": 700.0
   },
   {
@@ -517,6 +542,7 @@
     "verification_status": "Source Verified",
     "home_ownership": "RENT",
     "int_rate": 18.55,
+    "annual_inc": 120000.0,
     "fico_range_low": 680.0
   },
   {
@@ -537,6 +563,7 @@
     "verification_status": "Not Verified",
     "home_ownership": "RENT",
     "int_rate": 15.05,
+    "annual_inc": 36000.0,
     "fico_range_low": 660.0
   },
   {
@@ -557,6 +584,7 @@
     "verification_status": "Verified",
     "home_ownership": "MORTGAGE",
     "int_rate": 18.55,
+    "annual_inc": 67200.0,
     "fico_range_low": 670.0
   },
   {
@@ -577,6 +605,7 @@
     "verification_status": "Source Verified",
     "home_ownership": "MORTGAGE",
     "int_rate": 14.46,
+    "annual_inc": 38000.0,
     "fico_range_low": 660.0
   },
   {
@@ -597,6 +626,7 @@
     "verification_status": "Source Verified",
     "home_ownership": "RENT",
     "int_rate": 18.84,
+    "annual_inc": 65000.0,
     "fico_range_low": 665.0
   }
 ]
